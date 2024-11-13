@@ -118,18 +118,19 @@ License: https://github.com/GoogleChromeLabs/wasm-feature-detect/blob/5f715f923c
         loadingMessage.innerText = "Loading ROBLOX. This might take a minute depending on your internet connection, server load, and other factors.";
         body.append(loadingMessage);
 
-        var canvas = document.createElement("canvas");
-        canvas.setAttribute("id", "canvas");
-        canvas.oncontextmenu = function (e) {
-            // some games may have their own context menu, or just require a right click for some reason
-            e.preventDefault();
-        }
-        body.append(canvas);
-        Module.canvas = canvas;
+var canvas = document.createElement("canvas");
+canvas.setAttribute("id", "canvas");
+canvas.oncontextmenu = function (e) {
+    // some games may have their own context menu, or just require a right click for some reason
+    e.preventDefault();
+}
+body.append(canvas);
+Module.canvas = canvas;
 
-        var script = document.createElement("script");
-        script.setAttribute("src", "WebPlayer.js");
-        body.append(script);
+var script = document.createElement("script");
+script.setAttribute("src", "WebPlayer.js");
+script.setAttribute("crossorigin", "anonymous");
+body.append(script);
     }
     
     var featureErrorMessages = {

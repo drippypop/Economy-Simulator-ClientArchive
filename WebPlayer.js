@@ -6723,21 +6723,22 @@ var PThread = {
                 err("worker sent an unknown command " + cmd)
             }
             PThread.currentProxiedOperationCallerThread = undefined
-        };
-        worker.onerror = e => {
-            var message = "worker sent an error!";
-            var filename = e.filename || "undefined";
-            var lineno = e.lineno || "undefined";
-            var errorMessage = e.message || "undefined";
-            err(`${message} ${filename}:${lineno}: ${errorMessage}`);
-            throw e;
-        };
-        worker.postMessage({
-            "cmd": "load",
-            "urlOrBlob": Module["mainScriptUrlOrBlob"] || _scriptDir,
-            "wasmMemory": wasmMemory,
-            "wasmModule": wasmModule
-        })
+            };
+            worker.onerror = e => {
+                var message = "worker sent an error!";
+                var filename = e.filename || "undefined";
+                var lineno = e.lineno || "undefined";
+                var errorMessage = e.message || "undefined";
+                err(`${message} ${filename}:${lineno}: ${errorMessage}`);
+                console.error("Worker error event:", e); // Log the entire event for debugging
+                throw e;
+            };
+            worker.postMessage({
+                "cmd": "load",
+                "urlOrBlob": Module["mainScriptUrlOrBlob"] || _scriptDir,
+                "wasmMemory": wasmMemory,
+                "wasmModule": wasmModule
+            })
     },
     allocateUnusedWorker: function() {
         var pthreadMainJs = locateFile("WebPlayer.worker.js");

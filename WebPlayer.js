@@ -6726,8 +6726,11 @@ var PThread = {
         };
         worker.onerror = e => {
             var message = "worker sent an error!";
-            err(message + " " + e.filename + ":" + e.lineno + ": " + e.message);
-            throw e
+            var filename = e.filename || "undefined";
+            var lineno = e.lineno || "undefined";
+            var errorMessage = e.message || "undefined";
+            err(`${message} ${filename}:${lineno}: ${errorMessage}`);
+            throw e;
         };
         worker.postMessage({
             "cmd": "load",
